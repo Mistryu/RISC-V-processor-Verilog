@@ -52,7 +52,7 @@ module main(
         .pc_plus_imm(pc_plus_imm)
     );
     
-    // MUX for PC source: PC+4 (normal) or PC+imm (jump)
+    // MUX for PC source: PC+4 or PC+imm for jal
     mux mux_pc_src(
         .sel(sel_pc_src),
         .input1(pc_plus_imm),
