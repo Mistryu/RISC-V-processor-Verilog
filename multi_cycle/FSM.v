@@ -148,7 +148,7 @@ module FSM(
                 sel_result = 2'b10;
                 we_pc = 1'b1;
                 we_pc_plus_4 = 1'b1;
-                we_alu_reg = 1'b0;  // Don't save PC+4 to alu_reg
+                we_alu_reg = 1'b0;
                 we_original_pc = 1'b1;  // I'm storing the PC before it's updated for JAL instruction 
             end
             
@@ -172,7 +172,7 @@ module FSM(
                 we_pc = 1'b0;
                 we_mem = 1'b0;
                 we_rf = 1'b0;
-                we_alu_reg = 1'b1;  // Save address calculation result
+                we_alu_reg = 1'b1;
             end
             
             // S3: MEM_RD ( lw )
@@ -224,10 +224,10 @@ module FSM(
                 we_pc = 1'b0;
                 we_mem = 1'b0;
                 we_rf = 1'b0;
-                we_alu_reg = 1'b1;  // Save R-type ALU result
+                we_alu_reg = 1'b1;
             end
             
-            // S7: WB_ALU (Writeback ALU result for R, I, LUI, JAL)
+            // S7: WB_ALU
             S7_WB_ALU: begin
                 sel_mem_addr = 1'b0;
                 we_ir = 1'b0;
