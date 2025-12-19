@@ -13,7 +13,9 @@ module FSM(
     output reg we_mem,
     output reg we_rf,
     output reg we_pc_plus_4,
-    output reg we_alu_reg
+    output reg we_alu_reg,
+    output reg we_original_pc,
+    output reg sel_original_pc
 );
 
     // State encoding using one-hot encoding (excluding S8because I didn't implement it in the previous task)
@@ -126,12 +128,14 @@ module FSM(
         sel_alu_src_a = 1'b0;
         sel_alu_src_b = 2'b00;
         alu_op = 2'b00;
-                sel_result = 2'b00;
-                we_pc = 1'b0;
-                we_mem = 1'b0;
-                we_rf = 1'b0;
+        sel_result = 2'b00;
+        we_pc = 1'b0;
+        we_mem = 1'b0;
+        we_rf = 1'b0;
         we_pc_plus_4 = 1'b0;
         we_alu_reg = 1'b0;
+        we_original_pc = 1'b0;
+        sel_original_pc = 1'b0;
         we_pc = 1'b0;
         
         case (current_state)
@@ -145,6 +149,7 @@ module FSM(
                 we_pc = 1'b1;
                 we_pc_plus_4 = 1'b1;
                 we_alu_reg = 1'b0;  // Don't save PC+4 to alu_reg
+                we_original_pc = 1'b1;  // I'm storing the PC before it's updated for JAL instruction 
             end
             
             S1_DECODE: begin
@@ -262,13 +267,14 @@ module FSM(
                 sel_mem_addr = 1'b0;
                 we_ir = 1'b0;
                 sel_alu_src_a = 1'b0;
-                sel_alu_src_b = 2'b11;
+                sel_alu_src_b = 2'b01;
                 alu_op = 2'b00;
-                we_alu_reg = 1'b1;  // Save JAL target address
-                sel_result = 2'b10;
+                we_alu_reg = 1'b1;
+                sel_result = 2'b00;
                 we_pc = 1'b1;
                 we_mem = 1'b0;
                 we_rf = 1'b0;
+                sel_original_pc = 1'b1;  // Using original_pc for JAL jump target
             end
             
             default: begin

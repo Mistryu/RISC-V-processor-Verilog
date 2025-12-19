@@ -10,9 +10,9 @@ module ALU(
 
     // Combinational logic
     always @(*) begin
-        if (alu_control[0] && (alu_control[3:1] == 3'b000 || 
-                               alu_control[3:1] == 3'b010 || 
-                               alu_control[3:1] == 3'b011)) begin
+        if ((alu_control[0] && (alu_control[3:1] == 3'b000 || 
+                                alu_control[3:1] == 3'b011)) ||
+            (alu_control[3:1] == 3'b010)) begin
             shifted_operand_b = ~RD2 + 32'd1;
         end else begin
             shifted_operand_b = RD2;

@@ -1,4 +1,5 @@
-module mem
+// Memory module definition
+module mem // keep this name
 (
     input  wire clock,
     input  wire write_enable,
@@ -10,7 +11,7 @@ module mem
 
     localparam MEM_DEPTH = 8192;
     
-    reg [31:0] RAM [0 : MEM_DEPTH-1];
+    reg [31:0] RAM [0 : MEM_DEPTH-1]; // keep this name: RAM
     
     // Write is synchronous (on clock edge)
     always @(posedge clock) begin

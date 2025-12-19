@@ -13,7 +13,8 @@ module Controller2_0(
     output wire we_rf,
     output wire we_pc_plus_4,
     output wire we_alu_reg,
-    
+    output wire we_original_pc,
+    output wire sel_original_pc,
     output wire [2:0] sel_ext,
     
     output wire [3:0] alu_control
@@ -33,7 +34,7 @@ module Controller2_0(
     
     assign funct3 = instruction[14:12];
     assign funct7_bit5 = instruction[30];
-    
+
     Instruction_Decoder instr_decoder(
         .instruction(instruction),
         .opcode(opcode),
@@ -54,7 +55,9 @@ module Controller2_0(
         .we_mem(we_mem),
         .we_rf(we_rf),
         .we_pc_plus_4(we_pc_plus_4),
-        .we_alu_reg(we_alu_reg)
+        .we_alu_reg(we_alu_reg),
+        .we_original_pc(we_original_pc),
+        .sel_original_pc(sel_original_pc)
     );
 
     ALU_Decoder alu_decoder(

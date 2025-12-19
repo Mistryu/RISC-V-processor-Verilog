@@ -16,6 +16,7 @@ module rv_mc( // keep this name as your top module of rv_mc core
     wire [31:0] alu_result;
     wire [31:0] alu_reg_out;
     wire [31:0] pc_plus_4;
+    wire [31:0] original_pc;
     
     wire [31:0] alu_src_a;
     wire [31:0] alu_src_b;
@@ -34,8 +35,11 @@ module rv_mc( // keep this name as your top module of rv_mc core
     wire        we_rf;
     wire        we_pc_plus_4;
     wire        we_alu_reg;
+    wire        we_original_pc;
+    wire        sel_original_pc;
     wire [2:0]  sel_ext;
     wire [3:0]  alu_control;
+    wire [31:0] pc_for_alu;
     
     // Instruction field
     wire [4:0]  rs1 = instruction[19:15];
@@ -53,6 +57,15 @@ module rv_mc( // keep this name as your top module of rv_mc core
         .data_out(pc)
     );
     
+    // I'm storing the PC before it's updated for JAL instruction 
+    register original_pc_reg(
+        .clock(clk),
+        .reset(rst),
+        .write_enable(we_original_pc),
+        .data_in(pc),
+        .data_out(original_pc)
+    );
+    
     mux mux_mem_addr(
         .sel(sel_mem_addr),
         .input1(alu_reg_out),
@@ -60,6 +73,7 @@ module rv_mc( // keep this name as your top module of rv_mc core
         .out(mem_address)
     );
     
+    // Memory module definition
     mem MEM // keep this name MEM
     (
         .clock(clk),
@@ -91,6 +105,8 @@ module rv_mc( // keep this name as your top module of rv_mc core
         .we_rf(we_rf),
         .we_pc_plus_4(we_pc_plus_4),
         .we_alu_reg(we_alu_reg),
+        .we_original_pc(we_original_pc),
+        .sel_original_pc(sel_original_pc),
         .sel_ext(sel_ext),
         .alu_control(alu_control)
     );
@@ -128,10 +144,18 @@ module rv_mc( // keep this name as your top module of rv_mc core
         .imm_extended(imm_extended)
     );
     
+    // Mux to select between current PC and original PC (for JAL)
+    mux mux_pc_select(
+        .sel(sel_original_pc),
+        .input1(original_pc),
+        .input2(pc),
+        .out(pc_for_alu)
+    );
+    
     mux mux_alu_src_a(
         .sel(sel_alu_src_a),
         .input1(rd1_reg_out),
-        .input2(pc),
+        .input2(pc_for_alu),
         .out(alu_src_a)
     );
     

@@ -1,0 +1,8 @@
+Instruction Type,# of Cycles per instr.,# of this type in program,Total Cycles
+R-type,4,10,40
+I-type,4,10,40
+LW,5,3,15
+SW,4,3,12
+LUI,3,4,12
+JAL,4,3,12
+TOTAL,-,33,131

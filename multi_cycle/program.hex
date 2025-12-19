@@ -41,3 +41,12 @@
 // U-TYPE: Load Upper Immediate
 
 00012437  // lui x8, 0x12  (x8 = 0x00012000)
+000234b7  // lui x9, 0x23  (x9 = 0x00023000)
+00045637  // lui x12, 0x45  (x12 = 0x00045000)
+000678b7  // lui x17, 0x67  (x17 = 0x00067000)
+
+// J-TYPE: JAL 
+
+004000ef  // jal x1, 4   (jump forward 4 bytes)
+0080016f  // jal x2, 8   (jump forward 8 bytes)
+00c001ef  // jal x3, 12  (jump forward 12 bytes)
