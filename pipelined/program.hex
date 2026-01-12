@@ -1,0 +1,52 @@
+// Here is a test of each instruction my RISC-V processor supports
+// Source: https://www.eg.bucknell.edu/~csci206/riscv-converter/
+// I-TYPE:
+
+00500093  // addi x1, x0, 5
+00a00113  // addi x2, x0, 10
+0010a193  // slti x3, x1, 1
+0010b213  // sltiu x4, x1, 1
+0010c293  // xori x5, x1, 1
+0010e313  // ori x6, x1, 1
+0010f393  // andi x7, x1, 1
+00109113  // slli x2, x1, 1
+0010d193  // srli x3, x1, 1
+4010d213  // srai x4, x1, 1
+
+// R-TYPE:
+
+002081b3  // add x3, x1, x2
+402081b3  // sub x3, x1, x2
+002091b3  // sll x3, x1, x2
+0020a1b3  // slt x3, x1, x2
+0020b1b3  // sltu x3, x1, x2
+0020c1b3  // xor x3, x1, x2
+0020d1b3  // srl x3, x1, x2
+4020d1b3  // sra x3, x1, x2
+0020e1b3  // or x3, x1, x2
+0020f1b3  // and x3, x1, x2
+
+// I-TYPE: Load Word
+
+00002083  // lw x1, 0(x0)
+00402103  // lw x2, 4(x0)
+00802183  // lw x3, 8(x0)
+
+// S-TYPE: Store Word
+
+00302023  // sw x3, 0(x0)
+00402223  // sw x4, 4(x0)
+00502423  // sw x5, 8(x0)
+
+// U-TYPE: Load Upper Immediate
+
+00012437  // lui x8, 0x12  (x8 = 0x00012000)
+000234b7  // lui x9, 0x23  (x9 = 0x00023000)
+00045637  // lui x12, 0x45  (x12 = 0x00045000)
+000678b7  // lui x17, 0x67  (x17 = 0x00067000)
+
+// J-TYPE: JAL 
+
+004000ef  // jal x1, 4   (jump forward 4 bytes)
+0080016f  // jal x2, 8   (jump forward 8 bytes)
+00c001ef  // jal x3, 12  (jump forward 12 bytes)

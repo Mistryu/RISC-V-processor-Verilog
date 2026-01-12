@@ -1,0 +1,19 @@
+Hazard Type,Name,Conditions,Encoding
+RAW,E_forward_alu_op1,(E_rs1 == M_rd) AND M_we_rf AND (M_rd != 0) AND (M_sel_result != 01),10
+RAW,E_forward_alu_op1,(E_rs1 == W_rd) AND W_we_rf AND (W_rd != 0),01
+RAW,E_forward_alu_op1,Otherwise,00
+RAW,E_forward_alu_op2,(E_rs2 == M_rd) AND M_we_rf AND (M_rd != 0) AND (M_sel_result != 01),10
+RAW,E_forward_alu_op2,(E_rs2 == W_rd) AND W_we_rf AND (W_rd != 0),01
+RAW,E_forward_alu_op2,Otherwise,00
+LW,PC_en,(E_sel_result == 01) AND E_we_rf AND (E_rd != 0) AND ((D_rs1 == E_rd) OR (D_rs2 == E_rd)),0
+LW,IF_ID_en,(E_sel_result == 01) AND E_we_rf AND (E_rd != 0) AND ((D_rs1 == E_rd) OR (D_rs2 == E_rd)),0
+LW,ID_EX_clr,(E_sel_result == 01) AND E_we_rf AND (E_rd != 0) AND ((D_rs1 == E_rd) OR (D_rs2 == E_rd)),1
+LW,PC_en,Otherwise,1
+LW,IF_ID_en,Otherwise,1
+LW,ID_EX_clr,Otherwise,0
+Control,IF_ID_clr,E_branch AND E_zero,1
+Control,ID_EX_clr,E_branch AND E_zero,1
+Control,IF_ID_clr,Otherwise,0
+Control,ID_EX_clr,Otherwise (unless LW hazard),0
+Control,IF_ID_clr,D_jump,1
+Control,ID_EX_clr,D_jump,0
