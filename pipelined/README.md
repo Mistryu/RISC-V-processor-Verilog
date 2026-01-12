@@ -24,7 +24,7 @@ The processor implements a classic 5-stage pipeline:
 ### Control and main file
 
 - `controller.v`: Main controller generating control signals
-- `rv_pipelined.v`: Top-level module connecting all stages
+- `rv_pl.v`: Top-level module connecting all stages
 
 ## Control Signals
 
@@ -32,7 +32,7 @@ See `Table_controller.csv` for the complete controller truth table showing all c
 
 ## Files
 
-- `rv_pipelined.v`: Top-level processor module
+- `rv_pl.v`: Top-level processor module
 - `controller.v`: Control unit
 - `Table_controller.csv`: Controller truth table
 - `testbench.v`: Testbench for simulation
@@ -43,13 +43,13 @@ See `Table_controller.csv` for the complete controller truth table showing all c
 1. Compilation
 
    ```bash
-   iverilog -o riscv_pipelined testbench.v rv_pipelined.v *.v
+   iverilog -o testbench testbench.v rv_pl.v controller.v pipeline_reg_if_id.v pipeline_reg_id_ex.v pipeline_reg_ex_ma.v pipeline_reg_ma_wb.v ALU.v register_file.v sign_extender.v mux.v MUX3.v Data_memory.v add_pc_4.v add_pc_imm.v zero_flag.v program_counter.v instruction_memory.v hazard_unit.v
    ```
 
 2. Run simulation:
 
    ```bash
-   vvp riscv_pipelined
+   vvp testbench
    ```
 
 3. View waveforms:
